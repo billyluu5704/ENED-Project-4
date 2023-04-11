@@ -50,11 +50,11 @@ def turn_right(a, gyro):
     while gyro.angle() < a:
         m_left.run(50)
         m_right.run(-50)
-        wait(1000)
     robot.stop()
     m_left.brake()
     m_right.brake()
     gyro.reset_angle(0)
+    wait(1000)
 
 def startofshelves(box, tp0, tp1, tp2, tp3, tp4, st1, st2, st3, st4, st5, s, gyro,b1, b2, b3, b4, b5, b6):
     robot.straight(tp1)
@@ -111,11 +111,11 @@ def backtob(b1, b2, b3, b4, b5, b6, gyro,box, s):
     while gyro.angle() < 175:
         m_left.run(50)
         m_right.run(-50)
-        wait(1000)
     robot.stop()
     m_left.brake()
     m_right.brake()
     gyro.reset_angle(0)
+    wait(1000)
 
 backtob(b1, b2, b3, b4, b5, b6, gyro,box, s)
 
