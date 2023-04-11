@@ -30,7 +30,7 @@ m_arm = Motor(Port.B)
 CS = ColorSensor(Port.S4)
 sp = 1000000000
 a = 90
-turn = 180
+turn = 170
 v = sp
 robot.settings(-v, turn_rate = 360)
 
