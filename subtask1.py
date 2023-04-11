@@ -16,7 +16,7 @@ US = UltrasonicSensor(Port.S2)
 robot = DriveBase(m_left, m_right, wheel_diameter = 56, axle_track = 230)
 
 sp = 1000000000
-a = 86
+a = 90
 v = sp
 robot.settings(-v, turn_rate = 360)
 
