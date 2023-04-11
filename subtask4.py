@@ -18,7 +18,7 @@ US = UltrasonicSensor(Port.S2)
 
 m_arm = Motor(Port.B)
 
-a = 83
+a = 90
 b1 = 3 * 25.4 + 3 * (3.5/100)
 b2 = 9 * 25.4 + 9 * (3.5/100)
 b3 = 15 * 25.4 + 15 * (3.5/100)
@@ -29,6 +29,17 @@ m_arm.angle_limit = 180
 
 #pick up the box
 def pickup():
+    while gyro.angle() < a:
+        m_left.run(40)
+        m_right.run(-60)
+    robot.stop()
+    m_left.brake()
+    m_right.brake()
+    wait(1000)
+    robot.straight(-70)
+    robot.stop()
+    m_left.brake()
+    m_right.brake()
     while US.distance() > 100:
         robot.drive(100,0)
     robot.stop()
@@ -55,11 +66,11 @@ def goback(a):
     while gyro.angle() > -a:
         m_left.run(-50)
         m_right.run(50)
-        wait(1000)
     robot.stop()
     m_left.brake()
     m_right.brake()
     gyro.reset_angle(0)
+    wait(1000)
 
 goback(a)
 
