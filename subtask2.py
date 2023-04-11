@@ -25,11 +25,11 @@ def turn_left(a, gyro):
     while gyro.angle() > -a:
         m_left.run(-50)
         m_right.run(50)
-        wait(1000)
     robot.stop()
     m_left.brake()
     m_right.brake()
     gyro.reset_angle(0)
+    wait(1000)
 
 def backtoA(tp0, way, gyro):
     robot.straight(tp0)
@@ -49,9 +49,10 @@ def backtoA(tp0, way, gyro):
     while gyro.angle() > -175:
         m_left.run(-50)
         m_right.run(50)
-        wait(1000)
     robot.stop()
     m_left.brake()
     m_right.brake()
     gyro.reset_angle(0)
+    wait(1000)
 
+backtoA(tp0, way, gyro)
