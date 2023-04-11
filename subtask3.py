@@ -63,10 +63,11 @@ def scanBarcode(given_barcode):
     # Takes the barcode parameter and creates a
     # list that helps check for if it is the
     # right barcode
-    boxtype_1 = [True, False, False, False]
-    boxtype_2 = [True, False, True, False]
-    boxtype_3 = [True, True, False, False]
-    boxtype_4 = [True, False, False, True]
+    boxtype_1 = [False, False, False, True]
+    boxtype_2 = [False, True, False, True]
+    boxtype_3 = [False, False, True, True]
+    boxtype_4 = [False, True, True, False]
+
     #sets a barcode list to the given boxtype
     if given_barcode == 1:
         g_barcode_list = boxtype_1
