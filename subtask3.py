@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
-#!/usr/bin/env python3
+
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -24,6 +24,11 @@ US = UltrasonicSensor(Port.S2)
 m_arm = Motor(Port.B)
 
 CS = ColorSensor(Port.S4)
+sp = 1000000000
+a = 83
+turn = 170
+v = sp
+robot.settings(-v, turn_rate = 360)
 
 # IMPORTANT, "m.arm_run_angel(-30, 180)"
 # makes the arm move about .5 inch
@@ -35,6 +40,11 @@ b4 = 21 * 25.4 + 21 * (3.5/100)
 b5 = 27 * 25.4 + 27 * (3.5/100)
 b6 = 33 * 25.4 + 33 * (3.5/100)
 
+given_barcode = int(input("Enter the type of box you want to check: "))
+while given_barcode < 1 and given_barcode > 4:
+    print("Reenter\n")
+    given_barcode = int(input("Enter the  type of box you want to check: "))
+
 def tobox(b3):
     robot.straight(b3)
     robot.stop()
@@ -43,19 +53,13 @@ def tobox(b3):
 
 tobox(b3)
 
+
 def scanBarcode(given_barcode):
 
     ev3 = EV3Brick()
     m_left = Motor(Port.D)
     m_right = Motor(Port.A)
     robot = DriveBase(m_left, m_right, wheel_diameter = 56, axle_track = 100)
-
-    US = UltrasonicSensor(Port.S2)
-
-    m_arm = Motor(Port.B)
-
-    CS = ColorSensor(Port.S4)
-
     # Takes the barcode parameter and creates a
     # list that helps check for if it is the
     # right barcode
@@ -63,7 +67,6 @@ def scanBarcode(given_barcode):
     boxtype_2 = [True, False, True, False]
     boxtype_3 = [True, True, False, False]
     boxtype_4 = [True, False, False, True]
-
     #sets a barcode list to the given boxtype
     if given_barcode == 1:
         g_barcode_list = boxtype_1
@@ -73,7 +76,6 @@ def scanBarcode(given_barcode):
         g_barcode_list = boxtype_3
     if given_barcode == 4:
         g_barcode_list = boxtype_4
-
     #actual barcode scan
     barcode = [True, True, True, True]
     for i in range(4):
@@ -83,14 +85,10 @@ def scanBarcode(given_barcode):
         else:
             barcode[i] = False
             print("White")
-
-
         robot.straight(12)
         #Code that moves to next block in barcode
         wait(3000)
-
     #prints which barcode it scanned (does not tell whether or not its correct)
-   
     if barcode == boxtype_1:
         print("The barcode is of type 1")
         ev3.screen.print("Barcode type 1")
@@ -103,32 +101,19 @@ def scanBarcode(given_barcode):
     if barcode == boxtype_4:
         print("The barcode is of type 4")
         ev3.screen.print("Barcode type 4")
-   
     wait(3000)
-
-    if barcode == g_barcode_list:
-       
+    if barcode == g_barcode_list:      
         ev3.screen.print("Correct BARCODE!")
-       
         print("This is the correct barcode!")
         wait(2000)
         return True
-       
-
     else:
-
         ev3.screen.print("WRONG BARCODE!")
-       
-
         print("This is the wrong barcode")
         wait(2000)
-        return False        
+        return False   
+    
+wait(10000)     
    
-wait(10000)
 
-
-#robot moves straight to where the box is
-#robot.straight(300)
-
-#robot scans barcode and prints
-scanBarcode(2)
+scanBarcode(given_barcode)
