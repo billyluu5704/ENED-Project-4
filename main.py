@@ -21,7 +21,7 @@ robot = DriveBase(m_left, m_right, wheel_diameter = 56, axle_track = 230)
 
 sp = 1000000000
 a = 86
-turn = 175 
+turn = 180
 v = sp
 m_arm.angle_limit = 180
 robot.settings(-v, turn_rate = 360)
@@ -40,18 +40,18 @@ sheD1 = [[60, 60], [60, 72], [96, 72], [96, 60]]
 sheD2 = [[60, 84], [60, 96], [96, 96], [96, 84]]
 
 #turning points
-tp0 = (sheA1[0][1] - hoA[1] - 6) * 25.4 + (sheA1[0][1] - hoA[1] - 6) * (3.5/100)
-tp1 = (sheA1[1][1] - hoA[1] + 6) * 25.4 + (sheA1[1][1] - hoA[1] + 6) * (3.5/100)
-tp2 = (sheA2[1][1] - hoA[1] + 6) * 25.4 + (sheA2[1][1] - hoA[1] + 6) * (3.5/100)
-tp3 = (sheC1[1][1] - hoA[1] + 6) * 25.4 + (sheC1[1][1] - hoA[1] + 6) * (3.5/100)
-tp4 = (sheC2[1][1] - hoA[1] + 6) * 25.4 + (sheC2[1][1] - hoA[1] + 6) * (3.5/100) 
+tp0 = (sheA1[0][1] - hoA[1] - 6) * 25.4 + (sheA1[0][1] - hoA[1] - 6) * (3.5/100) + 10
+tp1 = (sheA1[1][1] - hoA[1] + 6) * 25.4 + (sheA1[1][1] - hoA[1] + 6) * (3.5/100) + 10
+tp2 = (sheA2[1][1] - hoA[1] + 6) * 25.4 + (sheA2[1][1] - hoA[1] + 6) * (3.5/100) + 10
+tp3 = (sheC1[1][1] - hoA[1] + 6) * 25.4 + (sheC1[1][1] - hoA[1] + 6) * (3.5/100) + 10
+tp4 = (sheC2[1][1] - hoA[1] + 6) * 25.4 + (sheC2[1][1] - hoA[1] + 6) * (3.5/100)  + 10
 
 #straight to points
-st1 = (sheB1[0][0] - sheA1[0][0]) * 25.4 + (sheB1[0][0] - hoA[0]) * (3.5/100)
-st2 = (sheB2[0][0] - sheA2[0][0]) * 25.4 + (sheB2[0][0] - hoA[0]) * (3.5/100)
-st3 = (sheD1[0][0] - sheC1[0][0]) * 25.4 + (sheD1[0][0] - hoA[0]) * (3.5/100)
-st4 = (sheD2[0][0] - sheC2[0][0]) * 25.4 + (sheD2[0][0] - hoA[0]) * (3.5/100)
-st5 = (sheD2[1][0] - sheC2[1][0]) * 25.4 + (sheD2[1][0] - hoA[0]) * (3.5/100)
+st1 = (sheB1[0][0] - sheA1[0][0]) * 25.4 + (sheB1[0][0] - hoA[0]) * (3.5/100) + 10
+st2 = (sheB2[0][0] - sheA2[0][0]) * 25.4 + (sheB2[0][0] - hoA[0]) * (3.5/100) + 10
+st3 = (sheD1[0][0] - sheC1[0][0]) * 25.4 + (sheD1[0][0] - hoA[0]) * (3.5/100) + 10
+st4 = (sheD2[0][0] - sheC2[0][0]) * 25.4 + (sheD2[0][0] - hoA[0]) * (3.5/100) + 10
+st5 = (sheD2[1][0] - sheC2[1][0]) * 25.4 + (sheD2[1][0] - hoA[0]) * (3.5/100) + 10
 
 
 #input
@@ -73,9 +73,9 @@ s = (sheA1[0][0] - hoA[0]) * 25.4 + (sheA1[0][0] - hoA[0]) * (3.5/100)
 way = (hoB[0] - hoA[1]) * 25.4 + (hoB[0] - hoA[1]) * (3.5/100)
 
 def turn_right(a, gyro):
-    while gyro.angle() < a:
-        m_left.run(100)
-        m_right.run(-100)
+    while abs(gyro.angle() - a) > 1:
+        m_left.run(80)
+        m_right.run(-80)
     robot.stop()
     m_left.brake()
     m_right.brake()
@@ -83,9 +83,9 @@ def turn_right(a, gyro):
     wait(1000)
 
 def turn_left(a, gyro):
-    while gyro.angle() > -a:
-        m_left.run(-100)
-        m_right.run(100)
+    while abs(gyro.angle() + a) > 1:
+        m_left.run(-80)
+        m_right.run(80)
     robot.stop()
     m_left.brake()
     m_right.brake()
@@ -95,7 +95,7 @@ def turn_left(a, gyro):
 
 def shelve(she, tp0, tp1, tp2, tp3, tp4, st1, s, gyro):
     if 1 <= box <= 6:
-        robot.straight(tp0)
+        robot.straight(tp0+ 40)
         robot.stop()
         m_left.brake()
         m_right.brake()
@@ -105,7 +105,7 @@ def shelve(she, tp0, tp1, tp2, tp3, tp4, st1, s, gyro):
         m_left.brake()
         m_right.brake()
         turn_right(a, gyro)
-        robot.straight(tp0)
+        robot.straight(tp0 + 40)
         robot.stop()
         m_left.brake()
         m_right.brake()
@@ -139,7 +139,7 @@ def shelve(she, tp0, tp1, tp2, tp3, tp4, st1, s, gyro):
         elif she == "A2" or she == "B2":
             robot.straight(tp2)
         elif she == "C1" or she == "D1":
-            robot.straight(tp3)
+            robot.straight(tp3 + 40)
         elif she == "C2" or she == "D2":
             robot.straight(tp4)
         robot.stop()
@@ -208,7 +208,7 @@ boxes(b1, b2, b3, b4, b5, b6, gyro, box)
 
 def pickup():
     wait(1000)
-    robot.straight(-20)
+    robot.straight(-10)
     robot.stop()
     m_left.brake()
     m_right.brake()
